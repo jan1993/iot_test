@@ -10,6 +10,11 @@ from autobahn.twisted.websocket import WebSocketClientFactory, \
 
 from base64 import b64encode
 
+import time
+import os
+import glob
+import subprocess
+
 class IoTServicesClientProtocol(WebSocketClientProtocol):
 
     def sendToHCP(self):
@@ -24,6 +29,11 @@ class IoTServicesClientProtocol(WebSocketClientProtocol):
             print("Text message received: {}".format(payload.decode('utf8')))
 
 if __name__ == '__main__':
+    os.system('modprobe w1-gpio')
+    os.system('modprobe w1-therm')
+    base_dir = '/sys/bus/w1/devices/'
+    device_folder = glob.glob(base_dir + '28*')[0]
+    device_file = device_folder + '/w1_slave'
 
     log.startLogging(sys.stdout)
 
