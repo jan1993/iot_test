@@ -67,7 +67,7 @@ while True:
 	print(r.status)
 	print(r.data)
 
-	body='{"mode":"async", "messageType":"ee71d66528cc09922871", "messages":[{"sensor":"roomTemp", "value":'+read_temp()+', "timestamp":'+str(timestamp)+'}]}'
+	body='{"mode":"async", "messageType":"ee71d66528cc09922871", "messages":[{"sensor":"roomTemp", "value":"'+str(read_temp())+'", "timestamp":'+str(timestamp)+'}]}'
 	r = http.urlopen('POST', url, body=body, headers=headers)
 
 
