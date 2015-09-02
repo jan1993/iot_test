@@ -14,6 +14,7 @@ import time
 import os
 import glob
 import subprocess
+import threading
 
 class IoTServicesClientProtocol(WebSocketClientProtocol):
     
@@ -43,8 +44,7 @@ class IoTServicesClientProtocol(WebSocketClientProtocol):
         msg2 = '{"mode":"async", "messageType":"ee71d66528cc09922871", "messages":[{"sensor":"cpuTemp", "value":"'+self.get_cpu_temp()+'", "timestamp":'+self.get_time()+'}]}'
         self.sendMessage(msg1.encode('utf8'))
         self.sendMessage(msg2.encode('utf8'))
-        time.sleep(20)
-        self.sendToHCP()
+        threading.Timer(20, self.sendToHCP).start()
 
     def onOpen(self):
         self.sendToHCP()
