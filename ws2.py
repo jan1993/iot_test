@@ -16,14 +16,11 @@ import glob
 import subprocess
 
 class IoTServicesClientProtocol(WebSocketClientProtocol):
-    def read_temp_raw():
+    
+    def read_temp(self):
         f = open(device_file, 'r')
         lines = f.readlines()
         f.close()
-        return lines
-    
-    def read_temp():
-        lines = read_temp_raw()
         while lines[0].strip()[-3:] != 'YES':
             time.sleep(0.2)
             lines = read_temp_raw()
@@ -33,7 +30,7 @@ class IoTServicesClientProtocol(WebSocketClientProtocol):
             temp_c = float(temp_string) / 1000.0
             return temp_c
 
-    def get_time():
+    def get_time(self):
         return str(int(time.time()))
 
     def get_cpu_temp():
