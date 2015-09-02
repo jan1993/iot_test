@@ -18,8 +18,7 @@ import subprocess
 class IoTServicesClientProtocol(WebSocketClientProtocol):
 
     def sendToHCP(self):
-# send message of Message Type 1 and the corresponding payload layout that you defined in the IoT Services Cockpit
-        self.sendMessage('{"mode":"async", "messageType":"ee71d66528cc09922871", "messages":[{"sensor":"sensor1", "value":"20", "timestamp":1413191650}]}'.encode('utf8'))
+        self.sendMessage('{"mode":"async", "messageType":"ee71d66528cc09922871", "messages":[{"sensor":"roomTemp", "value":"'+read_temp()+'", "timestamp":'+get_time()+'}]}'.encode('utf8'))
 
     def onOpen(self):
         self.sendToHCP()
