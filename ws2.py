@@ -16,17 +16,6 @@ import glob
 import subprocess
 
 class IoTServicesClientProtocol(WebSocketClientProtocol):
-
-    def sendToHCP(self):
-        self.sendMessage('{"mode":"async", "messageType":"ee71d66528cc09922871", "messages":[{"sensor":"roomTemp", "value":"'+read_temp()+'", "timestamp":'+get_time()+'}]}'.encode('utf8'))
-
-    def onOpen(self):
-        self.sendToHCP()
-
-    def onMessage(self, payload, isBinary):
-        if not isBinary:
-            print("Text message received: {}".format(payload.decode('utf8')))
-
     def read_temp_raw():
         f = open(device_file, 'r')
         lines = f.readlines()
@@ -51,6 +40,17 @@ class IoTServicesClientProtocol(WebSocketClientProtocol):
         pTemp = subprocess.Popen("vcgencmd measure_temp",stdout=subprocess.PIPE, shell=True)
         (cpuTemp,err) = pTemp.communicate()
         return str(cpuTemp[5:-3])
+
+    def sendToHCP(self):
+        msg = '{"mode":"async", "messageType":"ee71d66528cc09922871", "messages":[{"sensor":"roomTemp", "value":"'+read_temp()+'", "timestamp":'+get_time()+'}]}'
+        self.sendMessage(msg.encode('utf8'))
+
+    def onOpen(self):
+        self.sendToHCP()
+
+    def onMessage(self, payload, isBinary):
+        if not isBinary:
+            print("Text message received: {}".format(payload.decode('utf8')))
 
 
 if __name__ == '__main__':
