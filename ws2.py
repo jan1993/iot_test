@@ -42,7 +42,7 @@ class IoTServicesClientProtocol(WebSocketClientProtocol):
         return str(cpuTemp[5:-3])
 
     def sendToHCP(self):
-        msg = '{"mode":"async", "messageType":"ee71d66528cc09922871", "messages":[{"sensor":"roomTemp", "value":"'+read_temp()+'", "timestamp":'+get_time()+'}]}'
+        msg = '{"mode":"async", "messageType":"ee71d66528cc09922871", "messages":[{"sensor":"roomTemp", "value":"'+self.read_temp()+'", "timestamp":'+self.get_time()+'}]}'
         self.sendMessage(msg.encode('utf8'))
 
     def onOpen(self):
